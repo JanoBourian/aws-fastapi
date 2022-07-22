@@ -38,3 +38,9 @@ docker run \
 docker logs fastapi-postgres
 docker exec -it fastapi-postgres bash
 ```
+
+# Start fastapi-app
+
+```bash
+uvicorn main:app --reload
+```

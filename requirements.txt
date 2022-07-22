@@ -1,5 +1,6 @@
 asyncpg
 databases
+environs
 fastapi
 psycopg2-binary
 sqlalchemy

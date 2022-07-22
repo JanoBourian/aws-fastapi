@@ -1,2 +1,3 @@
 aws-fastapi/
 __pycache__/
+*.env.local
