@@ -1,17 +1,19 @@
 from fastapi import FastAPI
-from database.database import db
-from database.models import Test, Books
+from connection.database import database
+from connection.models import Test, Books
 
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    items = db.query(Test).all()
-    print(f"Items {items}")
-    items = db.query(Books).all()
-    print(f"Items {items}")
-    return {"message": "Hello"}
+@app.on_event("startup")
+async def startup():
+    await database.connect()
 
-@app.get("/hello/{name}")
-async def say_hello(name:str = None):
-    return {"message": f"Hello {name}"}
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
+
+@app.get("/books/")
+async def get_all_books():
+    query = Books.select()
+    return await database.fetch_all(query)

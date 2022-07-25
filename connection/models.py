@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Table, MetaData
-from .database import Base, engine
+from .database import database, database_url
 from sqlalchemy.orm import relationship
+import sqlalchemy
 
 meta = MetaData()
 
@@ -17,4 +18,5 @@ Books = Table(
     Column('author', String, nullable=False)
 )
 
+engine = sqlalchemy.create_engine(database_url)
 meta.create_all(engine)
