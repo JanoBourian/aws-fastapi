@@ -1,12 +1,14 @@
 from fastapi import FastAPI
 from database.database import db
-from database.models import Test
+from database.models import Test, Books
 
 app = FastAPI()
 
 @app.get("/")
 async def root():
     items = db.query(Test).all()
+    print(f"Items {items}")
+    items = db.query(Books).all()
     print(f"Items {items}")
     return {"message": "Hello"}
 

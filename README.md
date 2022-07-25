@@ -28,8 +28,6 @@ docker images
 docker run \ 
     --name fastapi-postgres \
     -e POSTGRES_PASSWORD=mysecretpassword \
-    -e POSTGRES_USER=janobourian \
-    -e POSTGRES_DB=fastapi \
     -e PGDATA=/var/lib/postgresql/data/pgdata \
     -v C:<path>\aws-fastapi:/var/lib/postgresql/data \
     -p 5432:5432 \
