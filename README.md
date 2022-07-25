@@ -37,8 +37,92 @@ docker logs fastapi-postgres
 docker exec -it fastapi-postgres bash
 ```
 
+If you want to start the postgres console
+
+```bash
+docker exec -it CONTAINER_ID bash
+psql -h localhost -p 5432 -U postgres -W
+\l 
+\c postgres
+\d
+\dt
+```
+
 # Start fastapi-app
 
 ```bash
 uvicorn main:app --reload
+```
+
+# Connection configuration 
+
+## database.py
+
+```python
+import databases
+from config.env_reader import env
+
+def get_database_url()->str:
+    ## Local vars
+    drivername = "postgresql"
+    db_user = env("DB_USER")
+    db_pass = env("DB_PASSWORD")
+    db_name = env("DB_NAME")
+    db_host = env("INSTANCE_HOST")
+    db_port = env("DB_PORT")
+    connection = drivername + '://' + db_user + ":" + db_pass + "@" + db_host + ":" + db_port + "/" + db_name
+    return connection
+
+database_url = get_database_url()
+database = databases.Database(database_url)
+
+```
+
+## models.py
+
+```python
+from sqlalchemy import Column, Integer, String, ForeignKey, Table, MetaData
+from .database import database, database_url
+from sqlalchemy.orm import relationship
+import sqlalchemy
+
+meta = MetaData()
+
+Test = Table(
+    'test', meta, 
+    Column('id_test', Integer, primary_key=True, index=True),
+    Column('nametest', String, unique=True, nullable=False)
+)
+
+Books = Table(
+    'books', meta, 
+    Column("id", Integer, primary_key=True),
+    Column('title', String, nullable=False),
+    Column('author', String, nullable=False)
+)
+
+engine = sqlalchemy.create_engine(database_url)
+meta.create_all(engine)
+```
+
+## main.py
+
+Notice the important of _startup_ and _shutdown_ endpoints
+
+```python
+from fastapi import FastAPI
+from connection.database import database
+from connection.models import Test, Books
+
+app = FastAPI()
+
+@app.on_event("startup")
+async def startup():
+    await database.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
+
 ```

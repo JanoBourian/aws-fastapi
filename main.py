@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from connection.database import database
 from connection.models import Test, Books
+from schemas.input import Book 
 
 app = FastAPI()
 
@@ -17,3 +18,12 @@ async def shutdown():
 async def get_all_books():
     query = Books.select()
     return await database.fetch_all(query)
+
+@app.post("/books/")
+async def create_book(request:Request):
+    data = await request.json()
+    # book = Book(**data)
+    query = Books.insert().values(**data)
+    # query = Books.insert().values(title = data['title'], author = data['author'])
+    last_record_id = await database.execute(query)
+    return {"id": last_record_id}
