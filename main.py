@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from connection.database import database
-from connection.models import Test, Books
+from connection.models import Books
 from schemas.input import Book 
 
 app = FastAPI()

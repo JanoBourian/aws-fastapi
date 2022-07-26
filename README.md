@@ -40,6 +40,7 @@ docker exec -it fastapi-postgres bash
 If you want to start the postgres console
 
 ```bash
+docker ps
 docker exec -it CONTAINER_ID bash
 psql -h localhost -p 5432 -U postgres -W
 \l 
@@ -125,4 +126,18 @@ async def startup():
 async def shutdown():
     await database.disconnect()
 
+```
+
+# Alembic
+
+Alembic is our migration manager
+
+```bash
+alembic init migrations
+# Delete or change information
+alembic revision --autogenerate -m "Initial"
+alembic upgrade head
+# Delete or change information into models file
+alembic revision --autogenerate -m "Delete Test table"
+alembic upgrade head
 ```

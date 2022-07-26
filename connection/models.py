@@ -5,12 +5,6 @@ import sqlalchemy
 
 meta = MetaData()
 
-Test = Table(
-    'test', meta, 
-    Column('id_test', Integer, primary_key=True, index=True),
-    Column('nametest', String, unique=True, nullable=False)
-)
-
 Books = Table(
     'books', meta, 
     Column("id", Integer, primary_key=True),
@@ -18,5 +12,5 @@ Books = Table(
     Column('author', String, nullable=False)
 )
 
-engine = sqlalchemy.create_engine(database_url)
-meta.create_all(engine)
+# engine = sqlalchemy.create_engine(database_url)
+# meta.create_all(engine)

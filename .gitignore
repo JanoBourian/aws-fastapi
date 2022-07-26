@@ -1,3 +1,5 @@
 aws-fastapi/
 __pycache__/
 *.env.local
+migrations/
+alembic.ini
