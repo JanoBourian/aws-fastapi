@@ -132,6 +132,18 @@ async def shutdown():
 
 Alembic is our migration manager
 
+In alembic.ini 
+
+```ini
+sqlalchemy.url 
+```
+
+In migrations/env.py
+```python
+from connection.models import meta
+target_metadata = meta
+```
+
 ```bash
 alembic init migrations
 # Delete or change information

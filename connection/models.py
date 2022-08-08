@@ -12,5 +12,5 @@ Books = Table(
     Column('author', String, nullable=False)
 )
 
-# engine = sqlalchemy.create_engine(database_url)
-# meta.create_all(engine)
+engine = sqlalchemy.create_engine(database_url)
+meta.create_all(engine)
