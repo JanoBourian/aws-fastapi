@@ -153,3 +153,16 @@ alembic upgrade head
 alembic revision --autogenerate -m "Delete Test table"
 alembic upgrade head
 ```
+
+# Relations in databases
+
+## One to Many
+
+One reader could have many books
+
+```python
+Column("reader_id", ForeignKey("readers.id"), nullable=False, index=True)
+``` 
+
+## Many to Many
+

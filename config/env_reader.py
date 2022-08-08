@@ -1,6 +1,7 @@
 import os
 from environs import Env
 
+
 def env_reader() -> Env:
     env = Env()
     if os.path.isfile("config/.env.local"):
